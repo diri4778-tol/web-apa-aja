@@ -1,0 +1,762 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>TKJ — Teknik Komputer & Jaringan</title>
+  <meta name="description" content="TKJ - Teknik Komputer & Jaringan. Kompetensi, project, galeri, dan kontak.">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+  /* -------------------------
+     Reset & base
+     ------------------------- */
+  :root{
+    --bg:#0b0f16;
+    --card:#0f1720;
+    --muted:#9aa4b2;
+    --accent:#00c8ff;
+    --accent-2:#6ee7b7;
+    --glass: rgba(255,255,255,0.04);
+    --radius:14px;
+    --container:1100px;
+    --ease: cubic-bezier(.2,.9,.3,1);
+    --text:#e6eef6;
+  }
+  html{scroll-behavior:smooth}
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+    background:linear-gradient(180deg,var(--bg) 0%, #061017 100%);
+    color:var(--text);
+    -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    line-height:1.5;
+  }
+  .container{width:92%; max-width:var(--container); margin:0 auto;}
+
+  /* -------------------------
+     Header / Navbar
+     ------------------------- */
+  header.site-header{
+    position:fixed; inset:0 0 auto 0; height:72px; display:flex; align-items:center;
+    background: linear-gradient(180deg, rgba(5,10,15,0.7), rgba(5,10,15,0.35));
+    border-bottom:1px solid rgba(255,255,255,0.03);
+    backdrop-filter: blur(6px); z-index:120;
+  }
+  .nav-inner{width:100%; display:flex; justify-content:space-between; align-items:center; padding:0 2%;}
+  .brand{font-weight:700; color:var(--accent); letter-spacing:1px; font-size:20px}
+  nav ul{display:flex; gap:20px; list-style:none; align-items:center; margin:0; padding:0}
+  nav a{color:var(--muted); text-decoration:none; font-weight:600; padding:8px 10px; border-radius:8px; transition:all .18s var(--ease)}
+  nav a:hover{color:var(--text); background:rgba(255,255,255,0.02)}
+  nav a.active{color:var(--accent); background: linear-gradient(90deg, rgba(0,200,255,0.06), rgba(110,231,183,0.03)); box-shadow:0 6px 18px rgba(0,200,255,0.04)}
+
+  .controls{display:flex; gap:12px; align-items:center}
+  .btn-ghost{background:transparent; border:1px solid rgba(255,255,255,0.04); color:var(--muted); padding:8px 12px; border-radius:10px; cursor:pointer}
+  .mode-toggle{cursor:pointer; padding:8px; border-radius:8px; background:transparent; border:1px solid rgba(255,255,255,0.03); color:var(--muted)}
+
+  /* Hamburger mobile */
+  .hamburger{display:none; width:40px; height:40px; border-radius:8px; align-items:center; justify-content:center; cursor:pointer}
+  .hamburger span{display:block; width:20px; height:2px; background:var(--text); position:relative}
+  .hamburger span::before,.hamburger span::after{content:""; position:absolute; left:0; width:20px; height:2px; background:var(--text)}
+  .hamburger span::before{top:-7px} .hamburger span::after{top:7px}
+
+  /* -------------------------
+     Hero
+     ------------------------- */
+  .hero{
+    min-height:88vh;
+    display:grid;
+    grid-template-columns:1fr 460px;
+    gap:36px;
+    align-items:center;
+    padding:120px 0 40px;
+  }
+  .hero-left h1{font-size:44px; line-height:1.02; margin:0 0 12px}
+  .hero-left p{color:var(--muted); margin-bottom:18px}
+  .hero-cta{display:flex; gap:12px; margin-top:18px}
+  .btn{display:inline-block; padding:12px 20px; border-radius:12px; font-weight:700; cursor:pointer}
+  .btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent-2)); color:#00121a; box-shadow:0 10px 30px rgba(0,200,255,0.06)}
+  .btn-outline{background:transparent; border:1px solid rgba(255,255,255,0.04); color:var(--muted)}
+
+  .hero-right{display:flex; align-items:center; justify-content:center}
+  .profile-card{
+    width:420px; border-radius:18px; overflow:hidden; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:18px; border:1px solid rgba(255,255,255,0.03);
+    box-shadow:0 20px 60px rgba(2,8,20,0.6);
+  }
+  .profile-card img{width:100%; border-radius:12px; display:block}
+
+  /* Stats */
+  .stats{display:flex; gap:12px; margin-top:20px}
+  .stat{background:var(--glass); padding:10px 14px; border-radius:12px; text-align:center; min-width:90px}
+  .stat strong{display:block; color:var(--accent); font-size:18px}
+
+  /* -------------------------
+     Sections common
+     ------------------------- */
+  section.panel{padding:80px 0}
+  section h2{font-size:28px; margin:0 0 12px; color:var(--accent)}
+  .lead{color:var(--muted); margin-bottom:18px}
+
+  /* -------------------------
+     Services / Skills
+     ------------------------- */
+  .skills-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:18px; margin-top:20px}
+  .skill-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:18px; border-radius:12px; border:1px solid rgba(255,255,255,0.03); transition:transform .25s var(--ease)}
+  .skill-card:hover{transform:translateY(-8px); box-shadow:0 20px 40px rgba(0,0,0,0.5)}
+  .skill-card h4{margin-bottom:8px}
+  .skill-list{display:flex; flex-direction:column; gap:6px; color:var(--muted); font-size:14px}
+
+  /* -------------------------
+     Certificates slider
+     ------------------------- */
+  .certificates{display:flex; gap:12px; align-items:center; margin-top:18px; overflow:hidden}
+  .cert-track{display:flex; gap:12px; animation:scrollLeft 18s linear infinite}
+  .cert{min-width:200px; background:rgba(255,255,255,0.03); padding:12px; border-radius:12px; border:1px solid rgba(255,255,255,0.03); text-align:center}
+  .cert img{width:100%; height:100px; object-fit:cover; border-radius:8px; display:block}
+  @keyframes scrollLeft{
+    0%{transform:translateX(0)}
+    100%{transform:translateX(-50%)}
+  }
+
+  /* -------------------------
+     Projects gallery
+     ------------------------- */
+  .projects-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:20px}
+  .project{position:relative; overflow:hidden; border-radius:12px; cursor:pointer; border:1px solid rgba(255,255,255,0.03)}
+  .project img{width:100%; height:180px; object-fit:cover; display:block; transition:transform .45s var(--ease)}
+  .project:hover img{transform:scale(1.06)}
+  .project .label{position:absolute; left:8px; bottom:8px; background:linear-gradient(90deg, rgba(0,0,0,0.5), rgba(0,0,0,0.2)); padding:6px 10px; border-radius:8px; color:#fff; font-weight:700}
+
+  /* Lightbox */
+  .lightbox{position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(0,0,0,0.7); z-index:800}
+  .lightbox.active{display:flex}
+  .lightbox img{max-width:90%; max-height:80vh; border-radius:8px; box-shadow:0 30px 80px rgba(0,0,0,0.7)}
+
+  /* -------------------------
+     Network Topology (SVG animation)
+     ------------------------- */
+  .topology{display:flex; gap:20px; align-items:center; justify-content:center; margin-top:20px}
+  .node{width:90px; height:90px; border-radius:12px; background:linear-gradient(180deg,#071722,#072a36); border:1px solid rgba(0,200,255,0.06); display:flex; align-items:center; justify-content:center; color:var(--accent); font-weight:700; position:relative; box-shadow:0 10px 30px rgba(0,200,255,0.03)}
+  .link{height:4px; width:120px; background:linear-gradient(90deg, rgba(0,200,255,0.15), rgba(110,231,183,0.12)); border-radius:6px; position:relative; overflow:hidden}
+  .link::after{content:""; position:absolute; left:-40%; top:0; width:40%; height:100%; background:linear-gradient(90deg, rgba(0,255,255,0.6), rgba(255,255,255,0.0)); animation:flow 2s linear infinite}
+  @keyframes flow{0%{left:-40%}100%{left:120%}}
+
+  /* -------------------------
+     Curriculum / Accordion FAQ
+     ------------------------- */
+  .curriculum{display:grid; grid-template-columns:1fr 380px; gap:20px; align-items:start; margin-top:20px}
+  .curr-list{background:var(--card); padding:16px; border-radius:12px; border:1px solid rgba(255,255,255,0.03)}
+  .curr-list li{padding:10px 12px; border-radius:8px; margin-bottom:8px; background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent)}
+  .accordion{background:var(--card); padding:12px; border-radius:12px; overflow:hidden}
+  .acc-item{border-bottom:1px solid rgba(255,255,255,0.03)}
+  .acc-head{padding:12px; cursor:pointer; display:flex; justify-content:space-between; align-items:center}
+  .acc-body{padding:0 12px 12px 12px; display:none; color:var(--muted)}
+
+  /* -------------------------
+     Blog mini / testimonials
+     ------------------------- */
+  .blog-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:18px}
+  .post{background:var(--card); padding:14px; border-radius:12px; border:1px solid rgba(255,255,255,0.03)}
+  .testimonials{display:flex; gap:12px; margin-top:14px}
+  .testimonial{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:12px; border-radius:12px; min-width:220px; border:1px solid rgba(255,255,255,0.03)}
+
+  /* -------------------------
+     Gallery grid
+     ------------------------- */
+  .photo-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-top:12px}
+  .photo-grid img{width:100%; height:150px; object-fit:cover; border-radius:8px}
+
+  /* -------------------------
+     Footer
+     ------------------------- */
+  footer.site-footer{padding:30px 0; margin-top:40px; border-top:1px solid rgba(255,255,255,0.03); color:var(--muted)}
+  .footer-grid{display:flex; justify-content:space-between; gap:12px; align-items:center}
+  .socials a{margin-left:8px; color:var(--muted); text-decoration:none; font-weight:700}
+
+  /* -------------------------
+     Contact modal (pop-up)
+     ------------------------- */
+  .modal{display:none; position:fixed; inset:0; align-items:center; justify-content:center; z-index:900; background:rgba(0,0,0,0.6); backdrop-filter:blur(4px)}
+  .modal.open{display:flex}
+  .modal-card{width:360px; background:#07121a; padding:18px; border-radius:12px; border:1px solid rgba(255,255,255,0.04)}
+  .modal-card h3{margin:0 0 8px}
+  .modal-card label{display:block; margin-top:8px; font-size:13px; color:var(--muted)}
+  .modal-card input,.modal-card textarea{width:100%; padding:10px; margin-top:6px; border-radius:8px; background:#071522; border:1px solid rgba(255,255,255,0.03); color:var(--text)}
+
+  /* -------------------------
+     Responsive
+     ------------------------- */
+  @media (max-width:1000px){
+    .hero{grid-template-columns:1fr; padding:100px 0 40px}
+    .projects-grid{grid-template-columns:repeat(2,1fr)}
+    .photo-grid{grid-template-columns:repeat(2,1fr)}
+    .blog-grid{grid-template-columns:1fr}
+    .cert-track{animation:none}
+    .certificates{overflow:auto; padding-bottom:6px}
+  }
+  @media (max-width:720px){
+    nav ul{display:none}
+    .hamburger{display:flex}
+    .hero-right{display:none}
+    .projects-grid{grid-template-columns:1fr}
+    .curriculum{grid-template-columns:1fr}
+    .container{width:95%}
+  }
+
+  /* simple reveal helper (JS will toggle .show) */
+  .reveal{opacity:0; transform:translateY(20px); transition:opacity .6s var(--ease), transform .6s var(--ease)}
+  .reveal.show{opacity:1; transform:translateY(0)}
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="nav-inner container">
+      <div class="brand">TKJ • TekKom & Jaringan</div>
+
+      <nav>
+        <ul id="navList">
+          <li><a href="#home" class="nav-link active">Home</a></li>
+          <li><a href="#about" class="nav-link">Tentang</a></li>
+          <li><a href="#skills" class="nav-link">Skill</a></li>
+          <li><a href="#projects" class="nav-link">Project</a></li>
+          <li><a href="#topology" class="nav-link">Topologi</a></li>
+          <li><a href="#curriculum" class="nav-link">Materi</a></li>
+          <li><a href="#career" class="nav-link">Karier</a></li>
+          <li><a href="#gallery" class="nav-link">Galeri</a></li>
+          <li><a href="#faq" class="nav-link">FAQ</a></li>
+          <li><a href="#contact" class="nav-link">Kontak</a></li>
+        </ul>
+      </nav>
+
+      <div class="controls">
+        <button class="mode-toggle" id="modeToggle" title="Toggle light/dark">🌗</button>
+        <button class="btn-ghost" id="openContactBtn">Kirim Pesan</button>
+        <div class="hamburger" id="hambtn" aria-hidden="true"><span></span></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="container" id="home" style="padding-top:90px">
+
+    <!-- HERO -->
+    <section class="hero panel">
+      <div class="hero-left">
+        <h1 class="reveal">Teknik Komputer & Jaringan (TKJ)</h1>
+        <p class="lead reveal">Belajar merakit komputer, mengelola server, membangun jaringan lokal & internet, serta keamanan jaringan.</p>
+
+        <div class="hero-cta reveal">
+          <a class="btn btn-primary" href="#projects">Lihat Project</a>
+          <a class="btn btn-outline" href="#curriculum">Materi</a>
+        </div>
+
+        <div class="stats reveal" style="margin-top:20px">
+          <div class="stat">
+            <strong>11</strong><small style="color:var(--muted)">Projects</small>
+          </div>
+          <div class="stat">
+            <strong>3</strong><small style="color:var(--muted)">Years</small>
+          </div>
+          <div class="stat">
+            <strong>-</strong><small style="color:var(--muted)">Students</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-right reveal">
+        <div class="profile-card">
+          <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=5b18f1e2a3bb9f6f2e8b0f2c5d2f3a54" alt="Lab TKJ">
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="panel reveal">
+      <h2>Apa Itu TKJ?</h2>
+      <p class="lead">TKJ atau Teknik Komputer dan Jaringan adalah program yang mempersiapkan siswa dengan kemampuan teknis dalam hardware, jaringan, server, dan keamanan digital.</p>
+
+      <div class="skills-grid" style="margin-top:18px">
+        <div class="skill-card reveal">
+          <h4>Praktik Langsung</h4>
+          <div class="skill-list">
+            <div>• Merakit PC & Troubleshooting</div>
+            <div>• Instalasi OS & Driver</div>
+            <div>• Konfigurasi jaringan</div>
+          </div>
+        </div>
+
+        <div class="skill-card reveal">
+          <h4>Networking</h4>
+          <div class="skill-list">
+            <div>• Routing & Switching</div>
+            <div>• Mikrotik Hotspot</div>
+            <div>• VLAN & Firewall</div>
+          </div>
+        </div>
+
+        <div class="skill-card reveal">
+          <h4>Server & Services</h4>
+          <div class="skill-list">
+            <div>• Webserver (Apache/Nginx)</div>
+            <div>• DNS / DHCP / FTP</div>
+            <div>• Virtualisasi & Linux</div>
+          </div>
+        </div>
+
+        <div class="skill-card reveal">
+          <h4>Security & IoT</h4>
+          <div class="skill-list">
+            <div>• Network security basics</div>
+            <div>• CCTV & NVR setup</div>
+            <div>• IoT device basics</div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- SKILLS / Layanan -->
+    <section id="skills" class="panel reveal">
+      <h2>Layanan & Skill Praktis</h2>
+      <p class="lead">Layanan praktik yang sering dilakukan di TKJ dan kompetensi yang dipelajari.</p>
+
+      <div class="skills-grid">
+        <div class="skill-card reveal">
+          <h4>Instalasi & Troubleshoot</h4>
+          <p class="lead" style="color:var(--muted)">Merakit PC, instal OS, dan perbaikan hardware.</p>
+        </div>
+
+        <div class="skill-card reveal">
+          <h4>Konfigurasi Jaringan</h4>
+          <p class="lead" style="color:var(--muted)">Mikrotik, routing, VLAN, switch konfigurasi.</p>
+        </div>
+
+        <div class="skill-card reveal">
+          <h4>Administrasi Server</h4>
+          <p class="lead" style="color:var(--muted)">Linux server, web server, DNS, DHCP.</p>
+        </div>
+
+        <div class="skill-card reveal">
+          <h4>Keamanan Jaringan</h4>
+          <p class="lead" style="color:var(--muted)">Firewall, enkripsi dasar, penanganan serangan dasar.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="panel reveal">
+      <h2>Project TKJ</h2>
+      <p class="lead">Contoh beberapa project yang biasa dikerjakan siswa TKJ.</p>
+
+      <div class="projects-grid">
+        <div class="project" data-src="https://tikoci.github.io/vscode-tikbook/media/screenshots/multitab-annotated.png">
+          <img src="https://tikoci.github.io/vscode-tikbook/media/screenshots/multitab-annotated.png" alt="">
+          <div class="label">Mikrotik</div>
+        </div>
+
+        <div class="project" data-src="https://ubuntucommunity.s3.us-east-2.amazonaws.com/original/2X/1/17ee449b2bd7c530d2f996215407fca5b722dcb2.png">
+          <img src="https://ubuntucommunity.s3.us-east-2.amazonaws.com/original/2X/1/17ee449b2bd7c530d2f996215407fca5b722dcb2.png" alt="">
+          <div class="label">Server Ubuntu</div>
+        </div>
+
+        <div class="project" data-src="https://ppkpijakarta.com/wp-content/uploads/2024/11/Praktik-Skill-Jaringan-komputer-Mendesain-Jaringan-1-1200x673.png">
+          <img src="https://ppkpijakarta.com/wp-content/uploads/2024/11/Praktik-Skill-Jaringan-komputer-Mendesain-Jaringan-1-1200x673.png" alt="">
+          <div class="label">Topology Design</div>
+        </div>
+
+        <div class="project" data-src="https://tse2.mm.bing.net/th/id/OIP.tC5F-FArWNiEJuPf4qvLBAHaEK?pid=ImgDet&w=178&h=100&c=7&dpr=1,5&o=7&rm=3">
+          <img src="https://tse2.mm.bing.net/th/id/OIP.tC5F-FArWNiEJuPf4qvLBAHaEK?pid=ImgDet&w=178&h=100&c=7&dpr=1,5&o=7&rm=3" alt="">
+          <div class="label">CCTV & NVR</div>
+        </div>
+      </div>
+
+      <!-- Lightbox -->
+      <div id="lightbox" class="lightbox" aria-hidden="true" tabindex="-1">
+        <img id="lbImage" src="" alt="Preview project">
+      </div>
+    </section>
+
+    <!-- TOPOLOGY -->
+    <section id="topology" class="panel reveal">
+      <h2>Topologi Jaringan Interaktif</h2>
+      <p class="lead">Visualisasi sederhana topologi: PC → Switch → Router → Internet</p>
+
+      <div class="topology" role="img" aria-label="Topologi jaringan">
+        <div class="node">
+          PC
+        </div>
+        <div class="link" aria-hidden="true"></div>
+        <div class="node">
+          SWITCH
+        </div>
+        <div class="link" aria-hidden="true"></div>
+        <div class="node">
+          ROUTER
+        </div>
+      </div>
+
+      <p style="color:var(--muted); margin-top:12px">Lampu pada link bergerak menunjukkan lalu lintas data (simulasi).</p>
+    </section>
+
+    <!-- CURRICULUM -->
+    <section id="curriculum" class="panel reveal">
+      <h2>Materi yang Dipelajari</h2>
+      <p class="lead">Ringkasan modul pembelajaran yang akan dipelajari dalam program TKJ.</p>
+
+      <div class="curriculum">
+        <ul class="curr-list reveal">
+          <li>Dasar Komputer & Perakitan</li>
+          <li>Dasar Jaringan (IP, Subnetting)</li>
+          <li>Routing & Switching</li>
+          <li>Administrasi Server (Linux)</li>
+          <li>Virtualisasi & Cloud Basics</li>
+          <li>Keamanan Jaringan</li>
+          <li>IoT & Embedded Systems</li>
+        </ul>
+
+        <div class="accordion reveal" id="faqAccordion">
+          <div class="acc-item">
+            <div class="acc-head">Apa perbedaan TKJ dan RPL?<span>+</span></div>
+            <div class="acc-body">TKJ fokus ke hardware & jaringan, RPL fokus ke perangkat lunak & pengembangan aplikasi.</div>
+          </div>
+          <div class="acc-item">
+            <div class="acc-head">Apakah harus jago komputer dulu?<span>+</span></div>
+            <div class="acc-body">Tidak perlu. Materi diajarkan dari dasar, praktik lebih banyak membantu untuk belajar cepat.</div>
+          </div>
+          <div class="acc-item">
+            <div class="acc-head">Apakah lulus TKJ bisa kerja langsung?<span>+</span></div>
+            <div class="acc-body">Banyak lulusan dapat kerja sebagai teknisi, admin jaringan, IT support, atau lanjut kuliah.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CAREER -->
+    <section id="career" class="panel reveal">
+      <h2>Karier Lulusan TKJ</h2>
+      <p class="lead">Contoh karier yang bisa dikejar setelah menguasai kompetensi TKJ.</p>
+
+      <div class="cards">
+        <div class="card reveal">
+          <h4>Network Engineer</h4>
+          <p class="lead" style="color:var(--muted)">Merancang & mengelola jaringan perusahaan.</p>
+        </div>
+        <div class="card reveal">
+          <h4>System Administrator</h4>
+          <p class="lead" style="color:var(--muted)">Mengelola server, backup & layanan IT.</p>
+        </div>
+        <div class="card reveal">
+          <h4>IT Support</h4>
+          <p class="lead" style="color:var(--muted)">Troubleshoot & support pengguna.</p>
+        </div>
+        <div class="card reveal">
+          <h4>Freelancer</h4>
+          <p class="lead" style="color:var(--muted)">Jasa instalasi, konfigurasi & pembuatan jaringan kecil.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section id="gallery" class="panel reveal">
+      <h2>Galeri</h2>
+      <p class="lead">Foto lab, peralatan, dan aktivitas siswa.</p>
+
+      <div class="photo-grid">
+        <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=7a8b9c0d1e2f3a4b5c6d" alt="">
+        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=2a3b4c5d6e7f8a9b0c1d" alt="">
+        <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=c3b4a5d6e7f8091a2b3c4d5e6f7a8b9c" alt="">
+        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=3b4c5d6e7f8a9b0c1d2e" alt="">
+      </div>
+    </section>
+
+    <!-- BLOG MINI -->
+    <section id="blog" class="panel reveal">
+      <h2>Artikel Singkat</h2>
+      <p class="lead">Baca beberapa artikel singkat yang relevan dengan TKJ.</p>
+
+      <div class="blog-grid">
+        <article class="post reveal">
+          <h4>Mikrotik: Dasar yang Perlu Kamu Tahu</h4>
+          <p class="lead" style="color:var(--muted)">Intro singkat tentang Mikrotik dan penggunaan hotspot.</p>
+        </article>
+        <article class="post reveal">
+          <h4>Mengenal Switch Managed vs Unmanaged</h4>
+          <p class="lead" style="color:var(--muted)">Perbandingan cepat dan kapan memilih tiap jenis switch.</p>
+        </article>
+        <article class="post reveal">
+          <h4>Kenapa Belajar Linux itu Penting?</h4>
+          <p class="lead" style="color:var(--muted)">Manfaat dasar Linux untuk administrasi server.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section id="testi" class="panel reveal">
+      <h2>Testimoni Alumni</h2>
+      <div class="testimonials">
+        <div class="testimonial reveal">
+          <strong>Asep</strong>
+          <p class="lead" style="color:var(--muted)">"Belajar di TKJ membuat saya cepat kerja sebagai teknisi di kantor."</p>
+        </div>
+        <div class="testimonial reveal">
+          <strong>Dewi</strong>
+          <p class="lead" style="color:var(--muted)">"Project mikrotik yang saya kerjakan sekarang dipakai di sekolah."</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ (also included in accordion earlier) -->
+    <section id="faq" class="panel reveal">
+      <h2>FAQ</h2>
+      <div class="accordion" id="faq2">
+        <div class="acc-item">
+          <div class="acc-head">Apakah TKJ cocok untuk pemula?<span>+</span></div>
+          <div class="acc-body">Sangat cocok — materinya mulai dari dasar hingga advance.</div>
+        </div>
+        <div class="acc-item">
+          <div class="acc-head">Berapa lama untuk menguasai dasar jaringan?<span>+</span></div>
+          <div class="acc-body">Dengan praktik rutin, dasar jaringan dapat dikuasai dalam beberapa bulan.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="panel reveal">
+      <h2>Hubungi Kami</h2>
+      <p class="lead">Butuh bantuan jaringan atau konsultasi? Kirim pesan melalui form.</p>
+      <button class="btn btn-primary" id="openContactBtn2">Buka Form Kontak</button>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <strong style="color:var(--accent)">TKJ</strong>
+        <div style="color:var(--muted); margin-top:6px">Sekolah Menengah Kejuruan — Teknik Komputer & Jaringan</div>
+      </div>
+
+      <div style="text-align:right">
+        <div class="socials">
+    <a href="https://instagram.com/USERNAME_KAMU" 
+       target="https://instagram.com/pure_logicc" 
+       aria-label="Instagram">IG</a>
+
+    <a href="https://wa.me/081298592349"
+       target="https://wa.me/+6281298592349" 
+       aria-label="WhatsApp">WA</a>
+
+    <a href="https://github.com/USERNAME_GITHUB"
+       target="_blank" 
+       aria-label="GitHub">GH</a>
+        </div>
+        <small style="display:block; margin-top:8px; color:var(--muted)">© <span id="year">2025</span> — Semua hak dilindungi</small>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CONTACT MODAL (WEB3FORMS) -->
+  <div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-card container" style="max-width:420px">
+      <div style="display:flex; justify-content:space-between; align-items:center">
+        <h3>Hubungi Kami</h3>
+        <button id="closeModal" style="background:transparent;border:0;color:var(--muted);font-size:20px;cursor:pointer">✕</button>
+      </div>
+
+      <form id="contactForm" action="https://api.web3forms.com/submit" method="POST" style="margin-top:10px">
+        <!-- Replace ACCESS_KEY_KAMU with your actual key from web3forms or other provider -->
+        <input type="hidden" name="access_key" value="ACCESS_KEY_KAMU">
+
+        <label>Nama</label>
+        <input type="text" name="name" required placeholder="Nama lengkap">
+
+        <label>Email</label>
+        <input type="email" name="email" required placeholder="email@contoh.com">
+
+        <label>Pesan</label>
+        <textarea name="message" rows="5" required placeholder="Tulis pesan..."></textarea>
+
+        <div style="margin-top:8px; display:flex; gap:8px">
+          <button type="submit" class="send-btn">Kirim</button>
+          <button type="button" id="cancel" class="btn btn-outline" style="background:transparent;color:var(--text)">Batal</button>
+        </div>
+
+        <p id="formMsg" style="color:var(--muted); margin-top:8px; font-size:14px"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- LIGHTBOX (reused) -->
+  <div id="lightbox2" class="lightbox" aria-hidden="true"><img src="" alt="preview"></div>
+
+<script>
+/* =========================
+   Utility & initial setup
+   ========================= */
+document.getElementById('year').textContent = new Date().getFullYear();
+
+/* Mobile nav (simple) */
+const hambtn = document.getElementById('hambtn');
+const navList = document.getElementById('navList');
+hambtn && hambtn.addEventListener('click', () => {
+  navList.style.display = navList.style.display === 'flex' ? 'none' : 'flex';
+});
+
+/* Smooth reveal on scroll (IntersectionObserver) */
+const reveals = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries, obs) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('show');
+      obs.unobserve(e.target);
+    }
+  });
+}, {threshold: 0.12});
+reveals.forEach(r => io.observe(r));
+
+/* Navbar active state on scroll */
+const navLinks = document.querySelectorAll('.nav-link');
+const sections = Array.from(navLinks).map(a => document.querySelector(a.getAttribute('href')));
+window.addEventListener('scroll', () => {
+  const y = window.scrollY + (window.innerHeight/5);
+  sections.forEach((sec, idx) => {
+    if (!sec) return;
+    if (y >= sec.offsetTop && y < sec.offsetTop + sec.offsetHeight) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      navLinks[idx].classList.add('active');
+    }
+  });
+
+  // change header style when scrolled
+  if (window.scrollY > 40) document.querySelector('.site-header').style.boxShadow = '0 6px 18px rgba(0,0,0,0.5)';
+  else document.querySelector('.site-header').style.boxShadow = 'none';
+});
+
+/* Lightbox for projects */
+const projects = document.querySelectorAll('.project');
+const lightbox = document.getElementById('lightbox');
+const lbImage = document.getElementById('lbImage');
+
+projects.forEach(p => {
+  p.addEventListener('click', () => {
+    const src = p.getAttribute('data-src') || p.querySelector('img').src;
+    lbImage.src = src;
+    document.getElementById('lightbox').classList.add('active');
+    document.getElementById('lightbox').setAttribute('aria-hidden', 'false');
+  });
+});
+document.getElementById('lightbox')?.addEventListener('click', (e)=> {
+  if (e.target === lbImage) return;
+  document.getElementById('lightbox').classList.remove('active');
+  document.getElementById('lightbox').setAttribute('aria-hidden', 'true');
+});
+
+/* Secondary lightbox (for gallery if needed) */
+const lb2 = document.getElementById('lightbox2');
+lb2 && lb2.addEventListener('click', ()=> lb2.classList.remove('active'));
+
+/* Topology animation: simple periodic class toggle (simulates "ping") */
+const links = document.querySelectorAll('.link::after'); // note: pseudo element can't be selected via JS
+// Instead, create a small live dot on links dynamically for better control
+document.querySelectorAll('.link').forEach(lk => {
+  const dot = document.createElement('div');
+  dot.style.position = 'absolute';
+  dot.style.left = '-18%';
+  dot.style.top = '0';
+  dot.style.width='24%';
+  dot.style.height='100%';
+  dot.style.background='linear-gradient(90deg, rgba(0,255,255,0.6), rgba(255,255,255,0))';
+  dot.style.borderRadius='6px';
+  dot.style.transition='left 1.6s linear';
+  lk.appendChild(dot);
+  setInterval(()=> {
+    dot.style.left = '-40%';
+    requestAnimationFrame(()=> dot.style.left = '120%');
+  }, 1600 + Math.random()*800);
+});
+
+/* Accordion (FAQ) */
+document.querySelectorAll('.acc-item .acc-head').forEach(h=>{
+  h.addEventListener('click', ()=> {
+    const body = h.nextElementSibling;
+    const open = body.style.display === 'block';
+    document.querySelectorAll('.acc-item .acc-body').forEach(b=> b.style.display = 'none');
+    if (!open) body.style.display = 'block';
+  });
+});
+
+/* Certificates track duplication fix (pause on hover) */
+const certTrack = document.getElementById('certTrack');
+certTrack && certTrack.addEventListener('mouseenter', ()=> certTrack.style.animationPlayState='paused');
+certTrack && certTrack.addEventListener('mouseleave', ()=> certTrack.style.animationPlayState='running');
+
+/* Contact modal controls (two open buttons) */
+const modal = document.getElementById('modal');
+const openContact = document.querySelectorAll('#openContactBtn, #openContactBtn2, #openContactBtn');
+openContact.forEach(b => b && b.addEventListener('click', ()=> {
+  modal.classList.add('open'); modal.setAttribute('aria-hidden','false');
+}));
+document.getElementById('closeModal').addEventListener('click', ()=> { modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); });
+document.getElementById('cancel').addEventListener('click', ()=> { modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); });
+window.addEventListener('click', (e)=> { if (e.target === modal) { modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); } });
+
+/* Contact form submit (using web3forms) with client-side feedback */
+document.getElementById('contactForm')?.addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const form = e.target;
+  const msg = document.getElementById('formMsg');
+  msg.textContent = 'Mengirim...';
+  const data = new FormData(form);
+  try {
+    const res = await fetch(form.action, { method:'POST', body:data });
+    const json = await res.json();
+    if (json.success) {
+      msg.textContent = 'Pesan terkirim. Terima kasih!';
+      form.reset();
+      setTimeout(()=>{ modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); msg.textContent=''; }, 1800);
+    } else {
+      msg.textContent = 'Terjadi masalah. Coba lagi.';
+    }
+  } catch (err) {
+    msg.textContent = 'Gagal mengirim — periksa koneksi.';
+  }
+});
+
+/* Dark/Light mode toggle (simple) */
+const modeToggle = document.getElementById('modeToggle');
+modeToggle.addEventListener('click', ()=> {
+  const root = document.documentElement;
+  if (root.style.getPropertyValue('--bg') === '#ffffff') {
+    // currently light -> set dark
+    root.style.setProperty('--bg','#0b0f16');
+    root.style.setProperty('--card','#0f1720');
+    modeToggle.textContent = '🌗';
+  } else {
+    // switch to light-ish theme
+    root.style.setProperty('--bg','#f7fbff');
+    root.style.setProperty('--card','#ffffff');
+    root.style.setProperty('--text','#07122a');
+    root.style.setProperty('--muted','#4b5563');
+    root.style.setProperty('--accent','#0ea5e9');
+    root.style.setProperty('--accent-2','#60a5fa');
+    modeToggle.textContent = '🌞';
+  }
+});
+
+/* Accessibility: close modal with Esc */
+document.addEventListener('keydown',(e)=> {
+  if (e.key === 'Escape') {
+    modal.classList.remove('open');
+    document.getElementById('lightbox')?.classList.remove('active');
+  }
+});
+</script>
+
+</body>
+</html>
